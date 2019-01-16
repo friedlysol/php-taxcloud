@@ -24,7 +24,7 @@
 
 namespace TaxCloud\Response;
 
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Message\ResponseInterface;
 use TaxCloud\MessageType;
 
 class ResponseBase
@@ -38,7 +38,7 @@ class ResponseBase
    *
    * @since 0.2.0
    *
-   * @param Response $response HTTP Response.
+   * @param ResponseInterface $response HTTP Response.
    */
   public function __construct($response) {
     $this->Response = json_decode($response->getBody(), true);

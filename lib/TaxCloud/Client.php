@@ -62,7 +62,7 @@ use TaxCloud\Response\GetExemptCertificatesResponse;
 use TaxCloud\Response\DeleteExemptCertificateResponse;
 use TaxCloud\Response\GetTICsResponse;
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Message\RequestInterface;
 
 /**
  * TaxCloud Web Service
@@ -103,8 +103,10 @@ class Client
   private function buildClient($base_uri)
   {
     $client = new GuzzleClient(array(
-      'base_uri' => $base_uri,
-      'timeout'  => 30.0,
+      'base_url' => $base_uri,
+      'defaults' => [
+        'timeout'  => 30.0,
+      ]
     ));
 
     $this->setClient($client);
@@ -123,6 +125,22 @@ class Client
   }
 
   /**
+   * Create Guzzle request.
+   * 
+   * @param  string $method
+   * @param  string $url
+   * @param  array $headers
+   * @param  mixed $body
+   * @return RequestInterface
+   */
+  private function createRequest($method, $url, $headers, $body) {
+    return $this->client->createRequest($method, $url, [
+      'headers' => $headers,
+      'body' => $body
+    ]);
+  }
+
+  /**
    * Verify that your implementation can communicate with TaxCloud.
    *
    * @since 0.1.1
@@ -132,7 +150,7 @@ class Client
    */
   public function Ping(Ping $parameters)
   {
-    $request = new Request('POST', 'Ping', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'Ping', self::$headers, json_encode($parameters));
 
     try {
       $response = new PingResponse($this->client->send($request));
@@ -159,7 +177,7 @@ class Client
    */
   public function VerifyAddress(VerifyAddress $parameters)
   {
-    $request = new Request('POST', 'VerifyAddress', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'VerifyAddress', self::$headers, json_encode($parameters));
 
     try {
       $response = new VerifyAddressResponse($this->client->send($request));
@@ -191,7 +209,7 @@ class Client
    */
   public function Lookup(Lookup $parameters)
   {
-    $request = new Request('POST', 'Lookup', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'Lookup', self::$headers, json_encode($parameters));
 
     try {
       $response = new LookupResponse($this->client->send($request));
@@ -239,7 +257,7 @@ class Client
    */
   public function Authorized(Authorized $parameters)
   {
-    $request = new Request('POST', 'Authorized', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'Authorized', self::$headers, json_encode($parameters));
 
     try {
       $response = new AuthorizedResponse($this->client->send($request));
@@ -265,7 +283,7 @@ class Client
    */
   public function AuthorizedWithCapture(AuthorizedWithCapture $parameters)
   {
-    $request = new Request('POST', 'AuthorizedWithCapture', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'AuthorizedWithCapture', self::$headers, json_encode($parameters));
 
     try {
       $response = new AuthorizedWithCaptureResponse($this->client->send($request));
@@ -291,7 +309,7 @@ class Client
    */
   public function Captured(Captured $parameters)
   {
-    $request = new Request('POST', 'Captured', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'Captured', self::$headers, json_encode($parameters));
 
     try {
       $response = new CapturedResponse($this->client->send($request));
@@ -317,7 +335,7 @@ class Client
    */
   public function Returned(Returned $parameters)
   {
-    $request = new Request('POST', 'Returned', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'Returned', self::$headers, json_encode($parameters));
 
     try {
       $response = new ReturnedResponse($this->client->send($request));
@@ -342,7 +360,7 @@ class Client
    */
   public function AddExemptCertificate(AddExemptCertificate $parameters)
   {
-    $request = new Request('POST', 'AddExemptCertificate', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'AddExemptCertificate', self::$headers, json_encode($parameters));
 
     try {
       $response = new AddExemptCertificateResponse($this->client->send($request));
@@ -368,7 +386,7 @@ class Client
    */
   public function DeleteExemptCertificate(DeleteExemptCertificate $parameters)
   {
-    $request = new Request('POST', 'DeleteExemptCertificate', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'DeleteExemptCertificate', self::$headers, json_encode($parameters));
 
     try {
       $response = new DeleteExemptCertificateResponse($this->client->send($request));
@@ -393,7 +411,7 @@ class Client
    */
   public function GetExemptCertificates(GetExemptCertificates $parameters)
   {
-    $request = new Request('POST', 'GetExemptCertificates', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'GetExemptCertificates', self::$headers, json_encode($parameters));
 
     try {
       $response = new GetExemptCertificatesResponse($this->client->send($request));
@@ -418,7 +436,7 @@ class Client
    */
   public function GetTICs(GetTICs $parameters)
   {
-    $request = new Request('POST', 'GetTICs', self::$headers, json_encode($parameters));
+    $request = $this->createRequest('POST', 'GetTICs', self::$headers, json_encode($parameters));
 
     try {
       $response = new GetTICsResponse($this->client->send($request));
