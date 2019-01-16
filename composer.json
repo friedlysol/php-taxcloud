@@ -1,19 +1,8 @@
 {
-  "name": "bporcelli/php-taxcloud",
+  "name": "friendlysol/php-taxcloud",
   "description" : "TaxCloud PHP library",
-  "type": "library",
-  "license": "proprietary",
-  "keywords": ["tax", "taxes", "taxation", "shop", "webshop", "store", "webstore", "sales", "ecommerce"],
-  "authors": [
-    {
-      "name": "Brett Porcelli",
-      "email": "brettporcelli@gmail.com"
-    },
-    {
-      "name": "Brian Altenhofel",
-      "email": "brian.altenhofel@vmdoh.com"
-    }
-  ],
+  "type": "library",  
+  "keywords": ["tax", "taxes", "taxation", "shop", "webshop", "store", "webstore", "sales", "ecommerce"],  
   "require": {
     "php": ">=5.5.0",
     "guzzlehttp/guzzle": "~5.0"
